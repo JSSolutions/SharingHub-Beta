@@ -28,7 +28,9 @@
       "airbnb"
     ],
     "rules": {
-      "no-trailing-spaces": "off"
+      "no-trailing-spaces": "off",
+      "import/no-unresolved": "off",
+      "no-unresolved": "off"
     }
   }
 }

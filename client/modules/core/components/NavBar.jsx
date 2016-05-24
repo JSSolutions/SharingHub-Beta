@@ -1,7 +1,8 @@
 import React from 'react';
 import { Navbar, Nav, NavItem } from 'react-bootstrap';
+import authContainer from '../../accounts/containers/auth';
 
-const NavBar = ({ toggleIcon }) => (
+const NavBar = ({ toggleIcon, user }) => (
   <Navbar className="main-nav-bar" inverse fixedTop>
     {toggleIcon}
     <Navbar.Header>
@@ -11,15 +12,23 @@ const NavBar = ({ toggleIcon }) => (
       <Navbar.Toggle />
     </Navbar.Header>
     <Navbar.Collapse>
-      <Nav pullRight>
-        <NavItem eventKey={1} href="/sign-up">Sign Up</NavItem>
-      </Nav>
+      {user ?
+        <Nav pullRight>
+          <NavItem eventKey={1} href="/profile">Profile</NavItem>
+          <NavItem eventKey={2} href="#">Log Out</NavItem>
+        </Nav>
+        :
+        <Nav pullRight>
+          <NavItem eventKey={1} href="/sign-up">Sign Up</NavItem>
+        </Nav>
+      }
     </Navbar.Collapse>
   </Navbar>
 );
 
 NavBar.propTypes = {
   toggleIcon: React.PropTypes.node,
+  user: React.PropTypes.object,
 };
 
-export default NavBar;
+export default authContainer(NavBar);

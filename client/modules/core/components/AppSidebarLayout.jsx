@@ -1,6 +1,7 @@
 import React from 'react';
 import NavBar from './NavBar.jsx';
 import Sidebar from 'react-sidebar';
+import { Row } from 'react-bootstrap';
 
 class SidebarLayout extends React.Component {
   constructor(props) {
@@ -62,13 +63,21 @@ class SidebarLayout extends React.Component {
         onSetOpen={this.onSetSidebarOpen}
         touch
       >
-        <div>
+        <div className="app-wrap">
           <NavBar toggleIcon={toggleIcon} />
-          <b>Main content</b>
+          <div className="container-fluid">
+            <Row>
+              {this.props.content()}
+            </Row>
+          </div>
         </div>
       </Sidebar>
     );
   }
 }
+
+SidebarLayout.propTypes = {
+  content: React.PropTypes.func,
+};
 
 export default SidebarLayout;

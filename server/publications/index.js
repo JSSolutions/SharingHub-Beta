@@ -1,3 +1,5 @@
-export default function () {
+import users from './users';
 
+export default function () {
+  users();
 }
