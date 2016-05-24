@@ -2,7 +2,7 @@ import React from 'react';
 import { Navbar, Nav, NavItem } from 'react-bootstrap';
 
 const NavBar = ({ }) => (
-  <Navbar inverse>
+  <Navbar inverse fixedTop>
     <Navbar.Header>
       <Navbar.Brand>
         <a href="#">Sharing Hub</a>

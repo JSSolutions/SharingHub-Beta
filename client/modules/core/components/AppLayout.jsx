@@ -3,7 +3,7 @@ import NavBar from './NavBar.jsx';
 import { Row } from 'react-bootstrap';
 
 const AppLayout = ({ content, isFluid }) => (
-  <div>
+  <div className="app-wrap">
     <NavBar />
     <div className={isFluid ? 'container-fluid' : 'container'}>
       <Row>
