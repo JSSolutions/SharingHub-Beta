@@ -1,0 +1,25 @@
+.sidebar
+  width 250px
+  background-color white
+  margin-top 64px
+
+.sidebar-toggle
+  float left
+  text-align center
+  min-width 64px
+  display inline-block
+  line-height 64px
+  position relative
+  i
+    item-selectable(none)
+    position absolute
+    margin 20px 0
+    font-size 24px
+    top 0
+    left 0
+    z-index 2
+    &:hover
+      cursor pointer
+
+.sidebar-toggle + .navbar-header
+  margin-left 39px !important

@@ -1,8 +1,9 @@
 import React from 'react';
 import { Navbar, Nav, NavItem } from 'react-bootstrap';
 
-const NavBar = () => (
-  <Navbar inverse fixedTop>
+const NavBar = ({ toggleIcon }) => (
+  <Navbar className="main-nav-bar" inverse fixedTop>
+    {toggleIcon}
     <Navbar.Header>
       <Navbar.Brand>
         <a href="/">Sharing Hub</a>
@@ -16,5 +17,9 @@ const NavBar = () => (
     </Navbar.Collapse>
   </Navbar>
 );
+
+NavBar.propTypes = {
+  toggleIcon: React.PropTypes.node,
+};
 
 export default NavBar;
