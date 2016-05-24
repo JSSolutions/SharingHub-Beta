@@ -5,8 +5,8 @@ import SignUp from './containers/sign_up';
 
 export default function (injectDeps, { FlowRouter }) {
   const AppLayoutCtx = injectDeps(AppLayout);
-  FlowRouter.route('/join', {
-    name: 'accounts.join',
+  FlowRouter.route('/sign-up', {
+    name: 'accounts.signUp',
     action() {
       mount(AppLayoutCtx, {
         content: () => <SignUp />,

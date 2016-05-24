@@ -1,5 +1,5 @@
 import React from 'react';
-import { Col, Row, Well, Button } from 'react-bootstrap';
+import { Col, Well, Button } from 'react-bootstrap';
 
 class SignUp extends React.Component {
   handleLogin(service) {
