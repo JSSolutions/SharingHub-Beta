@@ -12,7 +12,7 @@ export default function (injectDeps, { FlowRouter }) {
 
 
   profileRoutes.route('/', {
-    name: 'profile',
+    name: 'profile.me',
     action() {
       mount(AppLayoutCtx, {
         content: () => <h1>Profile</h1>,

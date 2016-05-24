@@ -1,5 +1,5 @@
 export default {
-  loginWithService({ Meteor, Bert }, service) {
+  loginWithService({ Meteor, FlowRouter, Bert }, service) {
     let loginMethod;
     const options = {};
 
@@ -26,6 +26,7 @@ export default {
             type: 'danger',
           });
         } else {
+          FlowRouter.go('profile.me');
           Bert.alert({
             title: 'Success',
             message: 'Welcome',
