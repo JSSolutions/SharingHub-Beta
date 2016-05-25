@@ -1,4 +1,5 @@
 import { HTTP } from 'meteor/http';
+import { Meteor } from 'meteor/meteor';
 
 class TrelloApi {
   constructor(key, token) {
@@ -13,12 +14,59 @@ class TrelloApi {
     const extendParam = params;
     extendParam.key = this.key;
     extendParam.token = this.token;
-    return HTTP.call(method, fullUrl, { params });
+    try {
+      return HTTP.call(method, fullUrl, { params });
+    } catch (e) {
+      return e;
+    }
   }
 
   getBoards(params = {}) {
     const url = '/member/me/boards';
-    return this.makeRequest('GET', url, params);
+    const res = this.makeRequest('GET', url, params);
+    if (res instanceof Error) {
+      throw new Meteor.Error(res.response.statusCode, res.response.content);
+    }
+    return res.data;
+  }
+
+  getMember(memberId, params = {}) {
+    const url = `/member/${memberId}`;
+    const res = this.makeRequest('GET', url, params);
+    if (res instanceof Error) {
+      throw new Meteor.Error(res.response.statusCode, res.response.content);
+    }
+    return res.data;
+  }
+
+  getAdminBoards(userId, params = {}) {
+    const boards = this.getBoards(params);
+    const adminBoards = [];
+
+    boards.forEach((board) => {
+      if (!board.memberships) return;
+      board.memberships.forEach((member) => {
+        if (member.idMember === userId && member.memberType === 'admin') {
+          adminBoards.push(board);
+        }
+      });
+    });
+
+    return adminBoards;
+  }
+
+  getAdminBoardsMembers(userId, boards) {
+    const members = [];
+    boards.forEach(board => {
+      if (!board.memberships) return;
+      board.memberships.forEach((member) => {
+        if (member.idMember !== userId) {
+          const memberProfile = this.getMember(member.idMember);
+          members.push(memberProfile);
+        }
+      });
+    });
+    return members;
   }
 }
 
