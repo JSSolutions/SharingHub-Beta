@@ -10,7 +10,7 @@ export default () => {
 
       Meteor.users.update(this.userId, {
         $pull: { mergedServices: serviceName },
-        $unset: { [unsetService] : '' },
+        $unset: { [unsetService]: '' },
       });
     },
   });
