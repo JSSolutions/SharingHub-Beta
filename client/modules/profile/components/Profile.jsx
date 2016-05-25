@@ -8,14 +8,12 @@ class Profile extends React.Component {
 
   renderMenu() {
     const { FlowRouter } = this.props.context();
-    const menu = FlowRouter.getParam('menu') || 'basic';
+    const menu = FlowRouter.getParam('menu') || 'settings';
 
-    switch (menu) {
-      case 'settings':
-        return <ProfileSettings {...this.props} />;
-      default:
-        return <ServicePage {...this.props} menu={menu} />;
+    if (menu === 'settings') {
+      return <ProfileSettings {...this.props} />;
     }
+    return <ServicePage {...this.props} service={menu} />;
   }
 
   render() {

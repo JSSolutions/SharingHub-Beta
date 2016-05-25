@@ -7,12 +7,14 @@ const ProfileSidebar = ({ user }) => (
     {user && user.mergedServices.map((key, i) => (
       <li key={key + i}>
         <a href={`/profile/${key}`}>
+          <i className={Constants.services[key].icon} aria-hidden="true"></i>
           {Constants.services[key].title}
         </a>
       </li>
     ))}
     <li>
       <a href="/profile/settings">
+        <i className="fa fa-cog" aria-hidden="true"></i>
         Settings
       </a>
     </li>

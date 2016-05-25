@@ -19,14 +19,15 @@ class ProfileSettings extends React.Component {
     return (
       <Col xs={12} sm={6} lg={4} key={key + i}>
         <div className={`service-item ${selected ? 'selected' : ''}`}>
-          <div>
+          <div className="service-item-content">
+            <i className={Constants.services[key].icon} aria-hidden="true"></i>
             <span className="service-title ">{Constants.services[key].title}</span>
           </div>
           <div
             className="service-icon icon-right"
             onClick={() => this.toggleService(key, selected)}
           >
-            <i className="material-icons">{selected ? 'clear' : 'add'}</i>
+            <i className={`fa fa-${selected ? 'times' : 'plus'}`} aria-hidden="true"></i>
           </div>
         </div>
       </Col>
@@ -46,7 +47,8 @@ class ProfileSettings extends React.Component {
   render() {
     return (
       <div>
-        <h4>Settings</h4>
+        <h3>Settings</h3>
+        <hr />
         {this.renderServicesList()}
       </div>
     );
