@@ -37,5 +37,16 @@ export default () => {
         }
       }
     },
+    'services.removeService'(serviceName) {
+      check(serviceName, String);
+
+      const unsetService = `services.${serviceName}`;
+      Subjects.remove({ owner: this.userId, service: serviceName });
+      Members.remove({ owner: this.userId, service: serviceName });
+      Meteor.users.update(this.userId, {
+        $pull: { mergedServices: serviceName },
+        $unset: { [unsetService]: '' },
+      });
+    },
   });
 };

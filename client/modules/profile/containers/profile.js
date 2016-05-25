@@ -9,6 +9,7 @@ export const depsMapper = (context, action) => ({
   context: () => context,
   loginWithService: action.accounts.loginWithService,
   removeService: action.profile.removeService,
+  syncService: action.profile.syncService,
 });
 
 export default composeAll(
