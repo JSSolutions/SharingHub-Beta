@@ -13,6 +13,7 @@ export const composer = ({ context }, onData) => {
 
 export const depsMapper = (context, action) => ({
   context: () => context,
+  logout: action.accounts.logout,
 });
 
 export default (component) => composeAll(

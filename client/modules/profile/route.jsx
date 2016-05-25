@@ -1,6 +1,8 @@
 import React from 'react';
 import { mount } from 'react-mounter';
 import AppSidebarLayout from '../core/components/AppSidebarLayout.jsx';
+import ProfileSidebar from './components/ProfileSidebar.jsx';
+import Profile from './containers/profile';
 
 export default function (injectDeps, { FlowRouter }) {
   const AppLayoutCtx = injectDeps(AppSidebarLayout);
@@ -11,11 +13,12 @@ export default function (injectDeps, { FlowRouter }) {
   });
 
 
-  profileRoutes.route('/', {
+  profileRoutes.route('/:menu?', {
     name: 'profile.me',
     action() {
       mount(AppLayoutCtx, {
-        content: () => <h1>Profile</h1>,
+        content: () => <Profile />,
+        sidebar: () => <ProfileSidebar />,
       });
     },
   });

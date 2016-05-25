@@ -18,6 +18,7 @@ export default {
     }
 
     if (loginMethod) {
+      const user = Meteor.user();
       loginMethod(options, (err) => {
         if (err) {
           Bert.alert({
@@ -26,14 +27,19 @@ export default {
             type: 'danger',
           });
         } else {
-          FlowRouter.go('profile.me');
+          if (!user) FlowRouter.go('profile.me');
           Bert.alert({
             title: 'Success',
-            message: 'Welcome',
+            message: user ? 'Service successfully added' : 'Welcome',
             type: 'success',
           });
         }
       });
     }
+  },
+
+  logout({ Meteor, FlowRouter }) {
+    Meteor.logout();
+    FlowRouter.go('/');
   },
 };

@@ -51,20 +51,17 @@ class SidebarLayout extends React.Component {
   }
 
   render() {
-    const sidebarContent = <b>Sidebar content</b>;
-    const toggleIcon = this.renderToggleIcon();
-
     return (
       <Sidebar
         sidebarClassName="sidebar"
-        sidebar={sidebarContent}
+        sidebar={this.props.sidebar()}
         open={this.state.sidebarOpen}
         docked={this.state.sidebarDocked}
         onSetOpen={this.onSetSidebarOpen}
         touch
       >
         <div className="app-wrap">
-          <NavBar toggleIcon={toggleIcon} />
+          <NavBar toggleIcon={this.renderToggleIcon()} />
           <div className="container-fluid">
             <Row>
               {this.props.content()}
@@ -78,6 +75,7 @@ class SidebarLayout extends React.Component {
 
 SidebarLayout.propTypes = {
   content: React.PropTypes.func,
+  sidebar: React.PropTypes.func,
 };
 
 export default SidebarLayout;

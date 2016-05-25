@@ -2,7 +2,7 @@ import React from 'react';
 import { Navbar, Nav, NavItem } from 'react-bootstrap';
 import authContainer from '../../accounts/containers/auth';
 
-const NavBar = ({ toggleIcon, user }) => (
+const NavBar = ({ toggleIcon, user, logout }) => (
   <Navbar className="main-nav-bar" inverse fixedTop>
     {toggleIcon}
     <Navbar.Header>
@@ -15,7 +15,7 @@ const NavBar = ({ toggleIcon, user }) => (
       {user ?
         <Nav pullRight>
           <NavItem eventKey={1} href="/profile">Profile</NavItem>
-          <NavItem eventKey={2} href="#">Log Out</NavItem>
+          <NavItem eventKey={2} onClick={() => logout()}>Log Out</NavItem>
         </Nav>
         :
         <Nav pullRight>
@@ -29,6 +29,7 @@ const NavBar = ({ toggleIcon, user }) => (
 NavBar.propTypes = {
   toggleIcon: React.PropTypes.node,
   user: React.PropTypes.object,
+  logout: React.PropTypes.func,
 };
 
 export default authContainer(NavBar);

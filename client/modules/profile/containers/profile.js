@@ -8,6 +8,7 @@ export const composer = ({ context }, onData) => {
 export const depsMapper = (context, action) => ({
   context: () => context,
   loginWithService: action.accounts.loginWithService,
+  removeService: action.profile.removeService,
 });
 
 export default composeAll(
