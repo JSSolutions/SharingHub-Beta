@@ -1,5 +1,5 @@
 import React from 'react';
-import { Nav, NavItem } from 'react-bootstrap';
+import { Nav, NavItem, Button } from 'react-bootstrap';
 import Constants from '../../core/libs/constants';
 import SubjectList from '../../subjects/components/SubjectList.jsx';
 import MembersList from '../../members/components/MembersList.jsx';
@@ -9,6 +9,12 @@ class ServicePage extends React.Component {
     super(props);
     this.state = { selectedTab: 1 };
     this.handleSelectTab = this.handleSelectTab.bind(this);
+    this.handleSync = this.handleSync.bind(this);
+  }
+
+  handleSync() {
+    const service = this.props.service;
+    this.props.syncService(service);
   }
 
   handleSelectTab(selectedTab) {
@@ -29,7 +35,17 @@ class ServicePage extends React.Component {
     const service = this.props.service;
     return (
       <div>
-        <h3>{Constants.services[service].title}</h3>
+        <div className="service-header">
+          <h3>{Constants.services[service].title}</h3>
+          <Button
+            bsStyle="success"
+            className="sync-button"
+            onClick={this.handleSync}
+          >
+            <i className="fa fa-refresh" aria-hidden="true"></i>
+            Sync
+          </Button>
+        </div>
         <hr />
         <Nav
           bsStyle="tabs"
@@ -49,7 +65,8 @@ class ServicePage extends React.Component {
 }
 
 ServicePage.propTypes = {
-  service: React.PropTypes.string,
+  service: React.PropTypes.string.isRequired,
+  syncService: React.PropTypes.func.isRequired,
 };
 
 export default ServicePage;
