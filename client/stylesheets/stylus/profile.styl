@@ -1,0 +1,37 @@
+.service-list
+  .service-item.selected
+    background-color $green_background
+    color white
+  .service-item
+    display flex
+    justify-content space-between
+    position relative
+    margin 10px 0
+    background-color $light_silver_background
+    padding 10px
+    .service-item-content
+      i
+        font-size 16px
+        margin-right 10px
+      .service-title
+        font-size 16px
+    div
+      display inline-block
+    .service-icon
+      font-size 16px
+    &:hover
+      cursor pointer
+      opacity 0.8
+    @media (min-width 768px)
+      padding 15px
+      margin 15px 0
+
+.service-tabs
+  display flex
+  text-align center
+  li
+    width 50%
+    @media (min-width 992px)
+      width 200px
+      overflow hidden
+      font-size 14px

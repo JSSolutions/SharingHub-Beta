@@ -10,7 +10,8 @@
     "react": "^15.1.0",
     "react-bootstrap": "^0.29.4",
     "react-dom": "^15.1.0",
-    "react-mounter": "^1.2.0"
+    "react-mounter": "^1.2.0",
+    "react-sidebar": "^2.1.2"
   },
   "devDependencies": {
     "eslint": "^2.10.2",
@@ -27,7 +28,9 @@
       "airbnb"
     ],
     "rules": {
-      "no-trailing-spaces": "off"
+      "no-trailing-spaces": "off",
+      "import/no-unresolved": "off",
+      "no-unresolved": "off"
     }
   }
 }
