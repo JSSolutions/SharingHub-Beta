@@ -39,7 +39,6 @@ export default () => {
     },
     'services.removeService'(serviceName) {
       check(serviceName, String);
-
       const unsetService = `services.${serviceName}`;
       Subjects.remove({ owner: this.userId, service: serviceName });
       Members.remove({ owner: this.userId, service: serviceName });
@@ -47,6 +46,52 @@ export default () => {
         $pull: { mergedServices: serviceName },
         $unset: { [unsetService]: '' },
       });
+    },
+    'services.shareSubject'(serviceName, subjectKey, memberKey) {
+      check(serviceName, String);
+      check(subjectKey, String);
+      check(memberKey, String);
+      let result;
+
+      switch (serviceName) {
+        case 'trello':
+          result = Meteor.call('trello.addBoardMember', subjectKey, memberKey);
+          break;
+        default:
+          break;
+      }
+
+      if (result) {
+        Subjects.update({ subjectKey, owner: this.userId, service: serviceName }, {
+          $addToSet: { memberKeys: memberKey },
+        });
+        Members.update({ memberKey, owner: this.userId, service: serviceName }, {
+          $addToSet: { subjectKeys: subjectKey },
+        });
+      }
+    },
+    'services.unshareSubject'(serviceName, subjectKey, memberKey) {
+      check(serviceName, String);
+      check(subjectKey, String);
+      check(memberKey, String);
+      let result;
+
+      switch (serviceName) {
+        case 'trello':
+          result = Meteor.call('trello.removeBoardMember', subjectKey, memberKey);
+          break;
+        default:
+          break;
+      }
+
+      if (result) {
+        Subjects.update({ subjectKey, owner: this.userId, service: serviceName }, {
+          $pull: { memberKeys: memberKey },
+        });
+        Members.update({ memberKey, owner: this.userId, service: serviceName }, {
+          $pull: { subjectKeys: subjectKey },
+        });
+      }
     },
   });
 };

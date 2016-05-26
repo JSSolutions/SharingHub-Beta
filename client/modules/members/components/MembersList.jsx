@@ -21,7 +21,7 @@ class MembersList extends React.Component {
               <tr key={member._id}>
                 <td>{i + 1}</td>
                 <td>{member.name}</td>
-                <td>{member._id}</td>
+                <td>{member.memberKey}</td>
                 <td>{member.tags}</td>
               </tr>
             ))}

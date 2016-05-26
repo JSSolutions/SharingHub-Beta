@@ -21,7 +21,7 @@ class SubjectsList extends React.Component {
               <tr key={subject._id}>
                 <td>{i + 1}</td>
                 <td>{subject.name}</td>
-                <td>{subject._id}</td>
+                <td>{subject.subjectKey}</td>
                 <td>{subject.tags}</td>
               </tr>
             ))}

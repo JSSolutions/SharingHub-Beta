@@ -68,6 +68,24 @@ class TrelloApi {
     });
     return members;
   }
+
+  addBoardMember(boardId, memberId, params = {}) {
+    const url = `/boards/${boardId}/members/${memberId}`;
+    const res = this.makeRequest('PUT', url, params);
+    if (res instanceof Error) {
+      throw new Meteor.Error(res.response.statusCode, res.response.content);
+    }
+    return res.data;
+  }
+
+  removeBoardMember(boardId, memberId, params = {}) {
+    const url = `/boards/${boardId}/members/${memberId}`;
+    const res = this.makeRequest('DELETE', url, params);
+    if (res instanceof Error) {
+      throw new Meteor.Error(res.response.statusCode, res.response.content);
+    }
+    return res.data;
+  }
 }
 
 export default TrelloApi;
