@@ -2,6 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import { check } from 'meteor/check';
 import { Subjects, Members } from '/imports/collections';
 import TrelloApi from '../libs/trello';
+import Trello from 'node-trello';
 
 const key = Meteor.settings.services.trello.consumerKey;
 
@@ -58,6 +59,28 @@ export default () => {
       const { accessToken, id } = getTrelloKeys();
       const trello = new TrelloApi(key, accessToken);
       return trello.getAdminBoardsMembers(id, adminBoards);
+    },
+    'trello.getMembersProfile'(memberKey) {
+      check(memberKey, String);
+
+      const { accessToken, id } = getTrelloKeys();
+      const trello = new TrelloApi(key, accessToken);
+      const member = trello.getMember(memberKey);
+      return parsTrelloMembers(member, this.userId);
+    },
+    'trello.addBoardMember'(boardId, memberId) {
+      check(boardId, String);
+      check(memberId, String);
+      const { accessToken, id } = getTrelloKeys();
+      const trello = new TrelloApi(key, accessToken);
+      return trello.addBoardMember(boardId, memberId, { type: 'normal' });
+    },
+    'trello.removeBoardMember'(boardId, memberId) {
+      check(boardId, String);
+      check(memberId, String);
+      const { accessToken, id } = getTrelloKeys();
+      const trello = new TrelloApi(key, accessToken);
+      return trello.removeBoardMember(boardId, memberId);
     },
   });
 };

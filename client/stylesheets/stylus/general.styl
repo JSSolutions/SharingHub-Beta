@@ -6,3 +6,32 @@
     margin-top 40px
   @media (min-width 992pxpx)
     margin-top 70px
+
+.link-non-stiled
+  non-stiled_link()
+  &:hover
+    non-stiled_link()
+
+.control-button
+  button + button
+    margin-left 15px
+
+.icon-button
+  i
+    margin-right 5px
+
+.modal-center-mobile
+  @media (max-width 768px)
+    display table !important
+    height 100%
+    width 100%
+    pointer-events none
+    .modal-dialog
+      display table-cell
+      vertical-align middle
+      pointer-events none
+      .modal-content
+        margin 15px 5px
+        width inherit
+        height inherit
+        pointer-events all

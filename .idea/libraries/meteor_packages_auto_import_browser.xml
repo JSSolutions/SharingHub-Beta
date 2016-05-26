@@ -104,6 +104,7 @@
         <item url="file://$USER_HOME$/.meteor/packages/ddp-server/1.2.6/web.browser/livedata_server_tests.js" />
         <item url="file://$USER_HOME$/.meteor/packages/aldeed_simple-schema/1.5.3/web.browser/simple-schema-validation-new.js" />
         <item url="file://$USER_HOME$/.meteor/packages/ddp-server/1.2.6/web.browser/stream_server.js" />
+        <item url="file://$USER_HOME$/.meteor/packages/reywood_publish-composite/1.4.2/web.browser/packages/reywood_publish-composite.js" />
         <item url="file://$USER_HOME$/.meteor/packages/aldeed_simple-schema/1.5.3/web.browser/simple-schema.js" />
         <item url="file://$USER_HOME$/.meteor/packages/ddp-common/1.2.5/web.browser/heartbeat.js" />
         <item url="file://$USER_HOME$/.meteor/packages/ddp-common/1.2.5/web.browser/method_invocation.js" />
@@ -309,6 +310,7 @@
       <root url="file://$USER_HOME$/.meteor/packages/ddp-server/1.2.6/web.browser/livedata_server_tests.js" />
       <root url="file://$USER_HOME$/.meteor/packages/aldeed_simple-schema/1.5.3/web.browser/simple-schema-validation-new.js" />
       <root url="file://$USER_HOME$/.meteor/packages/ddp-server/1.2.6/web.browser/stream_server.js" />
+      <root url="file://$USER_HOME$/.meteor/packages/reywood_publish-composite/1.4.2/web.browser/packages/reywood_publish-composite.js" />
       <root url="file://$USER_HOME$/.meteor/packages/aldeed_simple-schema/1.5.3/web.browser/simple-schema.js" />
       <root url="file://$USER_HOME$/.meteor/packages/ddp-common/1.2.5/web.browser/heartbeat.js" />
       <root url="file://$USER_HOME$/.meteor/packages/ddp-common/1.2.5/web.browser/method_invocation.js" />

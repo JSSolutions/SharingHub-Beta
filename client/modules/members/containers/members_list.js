@@ -1,4 +1,5 @@
 import { useDeps, composeWithTracker, composeAll } from 'mantra-core';
+import MembersPage from '../components/MembersPage.jsx';
 
 export const composer = ({ context }, onData) => {
   const { Meteor, Collections, FlowRouter } = context();
@@ -13,9 +14,10 @@ export const composer = ({ context }, onData) => {
 
 export const depsMapper = (context, action) => ({
   context: () => context,
+  createServiceMember: action.members.createServiceMember,
 });
 
-export default (component) => composeAll(
+export default composeAll(
   composeWithTracker(composer),
   useDeps(depsMapper)
-)(component);
+)(MembersPage);

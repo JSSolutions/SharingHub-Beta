@@ -21,18 +21,10 @@ export default {
       const user = Meteor.user();
       loginMethod(options, (err) => {
         if (err) {
-          Bert.alert({
-            title: 'Error',
-            message: err.message,
-            type: 'danger',
-          });
+          Bert.alert({ title: 'Error', message: err.message, type: 'danger' });
         } else {
           if (!user) FlowRouter.go('profile.me');
-          Bert.alert({
-            title: 'Success',
-            message: user ? 'Service successfully added' : 'Welcome',
-            type: 'success',
-          });
+          Bert.alert({ title: 'Success', message: user ? 'Service successfully added' : 'Welcome', type: 'success' });
         }
       });
     }
