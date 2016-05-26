@@ -18,13 +18,13 @@ class ProfileSettings extends React.Component {
 
     return (
       <Col xs={12} sm={6} lg={4} key={key + i}>
-        <div className={`service-item ${selected ? 'selected' : ''}`}>
-          <div className="service-item-content">
+        <div className={`list-item ${selected ? 'selected' : ''}`}>
+          <div className="list-item-content">
             <i className={Constants.services[key].icon} aria-hidden="true"></i>
-            <span className="service-title ">{Constants.services[key].title}</span>
+            <span className="list-item-title ">{Constants.services[key].title}</span>
           </div>
           <div
-            className="service-icon icon-right"
+            className="list-icon"
             onClick={() => this.toggleService(key, selected)}
           >
             <i className={`fa fa-${selected ? 'times' : 'plus'}`} aria-hidden="true"></i>
@@ -38,7 +38,7 @@ class ProfileSettings extends React.Component {
     const keys = Object.keys(Constants.services);
 
     return (
-      <Row className="service-list">
+      <Row className="list">
         {keys.map((key, i) => this.renderServiceItem(key, i))}
       </Row>
     );

@@ -47,7 +47,7 @@ export default () => {
         $unset: { [unsetService]: '' },
       });
     },
-    'services.shareSubject'(serviceName, subjectKey, memberKey) {
+    'services.shareSubjectToMember'(serviceName, subjectKey, memberKey) {
       check(serviceName, String);
       check(subjectKey, String);
       check(memberKey, String);
@@ -70,7 +70,7 @@ export default () => {
         });
       }
     },
-    'services.unshareSubject'(serviceName, subjectKey, memberKey) {
+    'services.unshareSubjectFromMember'(serviceName, subjectKey, memberKey) {
       check(serviceName, String);
       check(subjectKey, String);
       check(memberKey, String);
@@ -91,6 +91,44 @@ export default () => {
         Members.update({ memberKey, owner: this.userId, service: serviceName }, {
           $pull: { subjectKeys: subjectKey },
         });
+      }
+    },
+    'services.createMember'(serviceName, memberKey) {
+      check(serviceName, String);
+      check(memberKey, String);
+      let result;
+      let member;
+
+      switch (serviceName) {
+        case 'trello':
+          result = Meteor.call('trello.getMembersProfile', memberKey);
+          member = Members.findOne({ memberKey: result.memberKey });
+          if (member) {
+            throw new Meteor.Error('duplicateMemberKey', 'Member with this key already exist');
+          } else {
+            Members.insert(result);
+          }
+          return result;
+        default:
+          throw new Meteor.Error('invalidService', 'Invalid Service name');
+      }
+    },
+    'services.findMember'(serviceName, subjectKey, query) {
+      check(serviceName, String);
+      check(subjectKey, String);
+      check(query, String);
+
+      const subject = Subjects.findOne({ subjectKey, service: serviceName });
+
+      switch (serviceName) {
+        case 'trello':
+          if (!query || query.length < 1) return [];
+          const re = new RegExp(query, 'i');
+          return Members.find(
+            { name: re, memberKey: { $nin: subject.memberKeys } },
+            { limit: 50, fields: { name: 1, memberKey: 1 } }).fetch();
+        default:
+          return [];
       }
     },
   });

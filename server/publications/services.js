@@ -12,4 +12,17 @@ export default () => {
     check(serviceName, String);
     return Members.find({ owner: this.userId, service: serviceName });
   });
+
+  Meteor.publishComposite('services.subjectsDetail', function (serviceName, subjectId) {
+    return {
+      find() {
+        return Subjects.find(subjectId);
+      },
+      children: [{
+        find(subject) {
+          return Members.find({ owner: this.userId, service: serviceName, memberKey: { $in: subject.memberKeys } });
+        },
+      }],
+    };
+  });
 };

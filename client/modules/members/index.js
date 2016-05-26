@@ -1,3 +1,5 @@
-/**
- * Created by alex on 25.05.16.
- */
+import actions from './actions';
+
+export default {
+  actions,
+};

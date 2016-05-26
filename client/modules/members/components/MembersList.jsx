@@ -1,36 +1,39 @@
 import React from 'react';
-import { Table } from 'react-bootstrap';
-import memberContainer from '../containers/members_list';
+import { Col, Row } from 'react-bootstrap';
 
 class MembersList extends React.Component {
+  handleUnshare(memberKey) {
+    const { service, subject, unshareSubjectFromMember } = this.props;
+    unshareSubjectFromMember(service, subject.subjectKey, memberKey);
+  }
+
   render() {
+    const { members, service, subject } = this.props;
     return (
-      <div>
-        {this.props.members ?
-          <Table>
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>Name</th>
-                <th>Id</th>
-                <th>Tags</th>
-              </tr>
-            </thead>
-            <tbody>
-            {this.props.members.map((member, i) => (
-              <tr key={member._id}>
-                <td>{i + 1}</td>
-                <td>{member.name}</td>
-                <td>{member.memberKey}</td>
-                <td>{member.tags}</td>
-              </tr>
-            ))}
-            </tbody>
-          </Table>
-          :
-          <div>{this.props.service} Subjects</div>
-        }
-      </div>
+      <Row className="list">
+        {members && members.map((member) => (
+          <Col xs={12} sm={6} lg={4} key={member._id}>
+            <a
+              className="list-item link-non-stiled"
+            >
+              <div className="list-item-content">
+                <span className="list-item-title">
+                  {member.name}
+                </span>
+              </div>
+              <div className="list-icon">
+                {subject ?
+                  <i
+                    className="fa fa-times"
+                    aria-hidden="true"
+                    onClick={() => this.handleUnshare(member.memberKey)}
+                  > </i>
+                  : null}
+              </div>
+            </a>
+          </Col>
+        ))}
+      </Row>
     );
   }
 }
@@ -38,6 +41,9 @@ class MembersList extends React.Component {
 MembersList.propTypes = {
   service: React.PropTypes.string.isRequired,
   members: React.PropTypes.array,
+  subjectDetail: React.PropTypes.bool,
+  subject: React.PropTypes.object,
+  unshareSubjectFromMember: React.PropTypes.func,
 };
 
-export default memberContainer(MembersList);
+export default MembersList;

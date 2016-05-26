@@ -1,4 +1,5 @@
 import { useDeps, composeWithTracker, composeAll } from 'mantra-core';
+import SubjectList from '../components/SubjectList.jsx';
 
 export const composer = ({ context }, onData) => {
   const { Meteor, Collections, FlowRouter } = context();
@@ -15,7 +16,7 @@ export const depsMapper = (context, action) => ({
   context: () => context,
 });
 
-export default (component) => composeAll(
+export default composeAll(
   composeWithTracker(composer),
   useDeps(depsMapper)
-)(component);
+)(SubjectList);

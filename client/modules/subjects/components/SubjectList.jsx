@@ -1,36 +1,24 @@
 import React from 'react';
-import { Table } from 'react-bootstrap';
-import subjectContainer from '../containers/subjects_list';
+import { Col, Row } from 'react-bootstrap';
 
 class SubjectsList extends React.Component {
   render() {
+    const { subjects, service } = this.props;
     return (
-      <div>
-        {this.props.subjects ?
-          <Table>
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>Name</th>
-                <th>Id</th>
-                <th>Tags</th>
-              </tr>
-            </thead>
-            <tbody>
-            {this.props.subjects.map((subject, i) => (
-              <tr key={subject._id}>
-                <td>{i + 1}</td>
-                <td>{subject.name}</td>
-                <td>{subject.subjectKey}</td>
-                <td>{subject.tags}</td>
-              </tr>
-            ))}
-            </tbody>
-          </Table>
-        :
-          <div>{this.props.service} Subjects</div>
-        }
-      </div>
+      <Row className="list">
+        {subjects && subjects.map((subject) => (
+          <Col xs={12} sm={6} lg={4} key={subject._id}>
+            <a
+              className="list-item link-non-stiled"
+              href={`/profile/${service}/subject/${subject._id}`}
+            >
+              <div className="list-item-content">
+                <span className="list-item-title">{subject.name}</span>
+              </div>
+            </a>
+          </Col>
+        ))}
+      </Row>
     );
   }
 }
@@ -40,4 +28,4 @@ SubjectsList.propTypes = {
   subjects: React.PropTypes.array,
 };
 
-export default subjectContainer(SubjectsList);
+export default SubjectsList;

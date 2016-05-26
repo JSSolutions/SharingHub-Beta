@@ -1,8 +1,8 @@
 import React from 'react';
 import { Nav, NavItem, Button } from 'react-bootstrap';
 import Constants from '../../core/libs/constants';
-import SubjectList from '../../subjects/components/SubjectList.jsx';
-import MembersList from '../../members/components/MembersList.jsx';
+import SubjectList from '../../subjects/containers/subjects_list';
+import MembersList from '../../members/containers/members_list';
 
 class ServicePage extends React.Component {
   constructor(props) {
@@ -39,7 +39,7 @@ class ServicePage extends React.Component {
           <h3>{Constants.services[service].title}</h3>
           <Button
             bsStyle="success"
-            className="sync-button"
+            className="sync-button icon-button"
             onClick={this.handleSync}
           >
             <i className="fa fa-refresh" aria-hidden="true"></i>

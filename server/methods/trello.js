@@ -60,6 +60,14 @@ export default () => {
       const trello = new TrelloApi(key, accessToken);
       return trello.getAdminBoardsMembers(id, adminBoards);
     },
+    'trello.getMembersProfile'(memberKey) {
+      check(memberKey, String);
+
+      const { accessToken, id } = getTrelloKeys();
+      const trello = new TrelloApi(key, accessToken);
+      const member = trello.getMember(memberKey);
+      return parsTrelloMembers(member, this.userId);
+    },
     'trello.addBoardMember'(boardId, memberId) {
       check(boardId, String);
       check(memberId, String);
