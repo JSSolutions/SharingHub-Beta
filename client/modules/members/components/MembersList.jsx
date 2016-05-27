@@ -23,7 +23,7 @@ class MembersList extends React.Component {
   render() {
     const { members, service, subject, loading } = this.props;
     if (loading) {
-      return <MaterialSpinner className="spinner-center" />;
+      return <MaterialSpinner className="spinner-center" noFadeIn />;
     }
 
     return (

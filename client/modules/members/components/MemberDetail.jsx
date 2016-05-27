@@ -16,9 +16,8 @@ class MemberDetail extends React.Component {
   }
 
   render() {
-    const { member, loading, subjects, service, context,
+    const { member, loading, subjects, service, loadingAction,
       unshareSubjectFromMember, findSubject, shareSubjectToMember } = this.props;
-    const { LocalState } = context();
 
     if (loading) {
       return <MaterialSpinner className="spinner-center" />;
@@ -26,7 +25,6 @@ class MemberDetail extends React.Component {
     if (!member) {
       return <h3>Not Found</h3>;
     }
-    const loadingAction = LocalState.get(`loading_${member.memberKey}`);
 
     return (
       <Col lg={12}>
@@ -64,6 +62,7 @@ MemberDetail.propTypes = {
   service: React.PropTypes.string,
   member: React.PropTypes.object,
   subjects: React.PropTypes.array,
+  loadingAction: React.PropTypes.bool,
   loading: React.PropTypes.bool,
   shareSubjectToMember: React.PropTypes.func,
   unshareSubjectFromMember: React.PropTypes.func,

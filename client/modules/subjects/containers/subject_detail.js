@@ -2,15 +2,16 @@ import { useDeps, composeWithTracker, composeAll } from 'mantra-core';
 import SubjectDetail from '../components/SubjectDetail.jsx';
 
 export const composer = ({ context }, onData) => {
-  const { Meteor, Collections, FlowRouter } = context();
+  const { Meteor, Collections, FlowRouter, LocalState } = context();
   const service = FlowRouter.getParam('menu');
   const subjectId = FlowRouter.getParam('_id');
   if (Meteor.subscribe('services.subjectsDetail', service, subjectId).ready()) {
     const subject = Collections.Subjects.findOne(subjectId);
     const members = Collections.Members.find().fetch();
-    onData(null, { subject, members, service });
+    const loadingAction = LocalState.get(`loading_${subject.subjectKey}`);
+    onData(null, { subject, members, service, loadingAction });
   } else {
-    onData(null, { service });
+    onData(null, { service, loading: true });
   }
 };
 
