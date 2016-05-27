@@ -7,13 +7,15 @@ import ServicePage from './ServicePage.jsx';
 class Profile extends React.Component {
 
   renderMenu() {
-    const { FlowRouter } = this.props.context();
+    const { FlowRouter, LocalState } = this.props.context();
     const menu = FlowRouter.getParam('menu') || 'settings';
 
     if (menu === 'settings') {
       return <ProfileSettings {...this.props} />;
     }
-    return <ServicePage {...this.props} service={menu} />;
+
+    const loadingSync = LocalState.get(`loading_${menu}`);
+    return <ServicePage {...this.props} service={menu} loadingSync={loadingSync} />;
   }
 
   render() {

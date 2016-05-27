@@ -5,6 +5,8 @@ import { Tracker } from 'meteor/tracker';
 import { Bert } from 'meteor/themeteorchef:bert';
 import * as Collections from '/imports/collections';
 
+const LocalState = new ReactiveDict();
+
 export default function () {
   return {
     Meteor,
@@ -13,5 +15,6 @@ export default function () {
     Tracker,
     Bert,
     Collections,
+    LocalState,
   };
 }
