@@ -11,7 +11,7 @@ class SubjectsList extends React.Component {
   render() {
     const { subjects, service, member, loading } = this.props;
     if (loading) {
-      return <MaterialSpinner className="spinner-center" />;
+      return <MaterialSpinner className="spinner-center" noFadeIn />;
     }
 
     return (

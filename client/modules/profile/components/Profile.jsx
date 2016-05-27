@@ -5,22 +5,17 @@ import ProfileSettings from './ProfileSettings.jsx';
 import ServicePage from './ServicePage.jsx';
 
 class Profile extends React.Component {
-
   renderMenu() {
-    const { FlowRouter, LocalState } = this.props.context();
-    const menu = FlowRouter.getParam('menu') || 'settings';
-
+    const { menu } = this.props;
     if (menu === 'settings') {
       return <ProfileSettings {...this.props} />;
     }
-
-    const loadingSync = LocalState.get(`loading_${menu}`);
-    return <ServicePage {...this.props} service={menu} loadingSync={loadingSync} />;
+    return <ServicePage {...this.props} service={menu} />;
   }
 
   render() {
     if (!this.props.user) {
-      return (<h2>Pishow Naher z vidsu</h2>);
+      return (<h2>You Are not authorized, please login</h2>);
     }
 
     return (
@@ -32,6 +27,7 @@ class Profile extends React.Component {
 }
 
 Profile.propTypes = {
+  menu: React.PropTypes.string,
   user: React.PropTypes.object,
   context: React.PropTypes.func,
 };

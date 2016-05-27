@@ -3,6 +3,7 @@ import { Col, Row } from 'react-bootstrap';
 import TrelloSubject from './TrelloSubjectDetail.jsx';
 import MembersList from '../../members/components/MembersList.jsx';
 import ShareModal from './ShareModal.jsx';
+import { MaterialSpinner } from '../../core/libs/spinners.jsx';
 
 class SubjectDetail extends React.Component {
   renderServiceSubject() {
@@ -15,17 +16,15 @@ class SubjectDetail extends React.Component {
   }
 
   render() {
-    const { subject, loading, members, service, context,
+    const { subject, loading, members, service, loadingAction,
       findMember, shareSubjectToMember, unshareSubjectFromMember } = this.props;
-    const { LocalState } = context();
 
     if (loading) {
-      return <h5>Loading ...</h5>;
+      return <MaterialSpinner className="spinner-center" />;
     }
     if (!subject) {
       return <h3>Not Found</h3>;
     }
-    const loadingAction = LocalState.get(`loading_${subject.subjectKey}`);
 
     return (
       <Col lg={12}>
@@ -63,11 +62,11 @@ SubjectDetail.propTypes = {
   service: React.PropTypes.string,
   subject: React.PropTypes.object,
   members: React.PropTypes.array,
+  loadingAction: React.PropTypes.bool,
   loading: React.PropTypes.bool,
   shareSubjectToMember: React.PropTypes.func,
   unshareSubjectFromMember: React.PropTypes.func,
   findMember: React.PropTypes.func,
-  context: React.PropTypes.func,
 };
 
 export default SubjectDetail;

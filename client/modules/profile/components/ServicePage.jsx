@@ -22,12 +22,12 @@ class ServicePage extends React.Component {
   }
 
   renderTabContent() {
-    const { service, loadingSync } = this.props;
+    const { service, loading } = this.props;
     switch (this.state.selectedTab) {
       case 1:
-        return <SubjectList service={service} loading={loadingSync} />;
+        return <SubjectList service={service} loading={loading} />;
       case 2:
-        return <MembersList service={service} loading={loadingSync} />;
+        return <MembersList service={service} loading={loading} />;
       default: return <div>Not Found</div>;
     }
   }
@@ -68,7 +68,7 @@ class ServicePage extends React.Component {
 ServicePage.propTypes = {
   service: React.PropTypes.string.isRequired,
   syncService: React.PropTypes.func.isRequired,
-  loadingSync: React.PropTypes.bool,
+  loading: React.PropTypes.bool,
 };
 
 export default ServicePage;
