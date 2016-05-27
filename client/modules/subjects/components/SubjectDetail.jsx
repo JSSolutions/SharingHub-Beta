@@ -2,7 +2,7 @@ import React from 'react';
 import { Col, Row } from 'react-bootstrap';
 import TrelloSubject from './TrelloSubjectDetail.jsx';
 import MembersList from '../../members/components/MembersList.jsx';
-import SubjectMemberForm from './ShareToMember.jsx';
+import ShareModal from './ShareModal.jsx';
 
 class SubjectDetail extends React.Component {
   renderServiceSubject() {
@@ -15,7 +15,7 @@ class SubjectDetail extends React.Component {
   }
 
   render() {
-    const { subject, loading, members, service,
+    const { subject, loading, members, service, context,
       findMember, shareSubjectToMember, unshareSubjectFromMember } = this.props;
     if (loading) {
       return <h5>Loading ...</h5>;
@@ -36,7 +36,7 @@ class SubjectDetail extends React.Component {
           <div>
             <h5>Members List</h5>
             <hr />
-            <SubjectMemberForm
+            <ShareModal
               service={service}
               findMember={findMember}
               subject={subject}
@@ -47,6 +47,7 @@ class SubjectDetail extends React.Component {
               service={service}
               subject={subject}
               unshareSubjectFromMember={unshareSubjectFromMember}
+              context={context}
             />
           </div>
         </div>
@@ -62,6 +63,7 @@ SubjectDetail.propTypes = {
   loading: React.PropTypes.bool,
   shareSubjectToMember: React.PropTypes.func,
   unshareSubjectFromMember: React.PropTypes.func,
+  findMember: React.PropTypes.func,
 };
 
 export default SubjectDetail;

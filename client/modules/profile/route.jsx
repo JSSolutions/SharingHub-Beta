@@ -4,6 +4,7 @@ import AppSidebarLayout from '../core/components/AppSidebarLayout.jsx';
 import ProfileSidebar from './components/ProfileSidebar.jsx';
 import Profile from './containers/profile';
 import SubjectDetail from '../subjects/containers/subject_detail';
+import MemberDetail from '../members/containers/member_detail';
 
 export default function (injectDeps, { FlowRouter }) {
   const AppLayoutCtx = injectDeps(AppSidebarLayout);
@@ -38,7 +39,7 @@ export default function (injectDeps, { FlowRouter }) {
     name: 'profile.serviceItemDetail',
     action() {
       mount(AppLayoutCtx, {
-        content: () => <SubjectDetail />,
+        content: () => <MemberDetail />,
         sidebar: () => <ProfileSidebar />,
       });
     },

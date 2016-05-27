@@ -131,5 +131,23 @@ export default () => {
           return [];
       }
     },
+    'services.findSubject'(serviceName, memberKey, query) {
+      check(serviceName, String);
+      check(memberKey, String);
+      check(query, String);
+
+      const member = Members.findOne({ memberKey, service: serviceName });
+
+      switch (serviceName) {
+        case 'trello':
+          if (!query || query.length < 1) return [];
+          const re = new RegExp(query, 'i');
+          return Subjects.find(
+            { name: re, subjectKey: { $nin: member.subjectKeys } },
+            { limit: 50, fields: { name: 1, subjectKey: 1 } }).fetch();
+        default:
+          return [];
+      }
+    },
   });
 };
