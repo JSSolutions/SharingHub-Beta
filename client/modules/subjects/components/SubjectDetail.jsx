@@ -17,12 +17,15 @@ class SubjectDetail extends React.Component {
   render() {
     const { subject, loading, members, service, context,
       findMember, shareSubjectToMember, unshareSubjectFromMember } = this.props;
+    const { LocalState } = context();
+
     if (loading) {
       return <h5>Loading ...</h5>;
     }
     if (!subject) {
       return <h3>Not Found</h3>;
     }
+    const loadingAction = LocalState.get(`loading_${subject.subjectKey}`);
 
     return (
       <Col lg={12}>
@@ -47,7 +50,7 @@ class SubjectDetail extends React.Component {
               service={service}
               subject={subject}
               unshareSubjectFromMember={unshareSubjectFromMember}
-              context={context}
+              loading={loadingAction}
             />
           </div>
         </div>
@@ -64,6 +67,7 @@ SubjectDetail.propTypes = {
   shareSubjectToMember: React.PropTypes.func,
   unshareSubjectFromMember: React.PropTypes.func,
   findMember: React.PropTypes.func,
+  context: React.PropTypes.func,
 };
 
 export default SubjectDetail;

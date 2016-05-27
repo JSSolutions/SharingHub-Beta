@@ -1,21 +1,29 @@
 export default {
-  shareSubjectToMember({ Meteor, Bert }, serviceName, subjectKey, memberKey) {
+  shareSubjectToMember({ Meteor, Bert, LocalState }, serviceName, subjectKey, memberKey) {
+    LocalState.set(`loading_${subjectKey}`, true);
+    LocalState.set(`loading_${memberKey}`, true);
     Meteor.call('services.shareSubjectToMember', serviceName, subjectKey, memberKey, (err) => {
       if (err) {
         Bert.alert({ title: 'Error', message: err.message, type: 'danger' });
       } else {
         Bert.alert({ title: 'Success', message: 'Subject shared to member', type: 'success' });
       }
+      LocalState.set(`loading_${subjectKey}`, false);
+      LocalState.set(`loading_${memberKey}`, false);
     });
   },
 
-  unshareSubjectFromMember({ Meteor, Bert }, serviceName, subjectKey, memberKey) {
+  unshareSubjectFromMember({ Meteor, Bert, LocalState }, serviceName, subjectKey, memberKey) {
+    LocalState.set(`loading_${subjectKey}`, true);
+    LocalState.set(`loading_${memberKey}`, true);
     Meteor.call('services.unshareSubjectFromMember', serviceName, subjectKey, memberKey, (err) => {
       if (err) {
         Bert.alert({ title: 'Error', message: err.message, type: 'danger' });
       } else {
         Bert.alert({ title: 'Success', message: 'Subject unshared from member', type: 'success' });
       }
+      LocalState.set(`loading_${subjectKey}`, false);
+      LocalState.set(`loading_${memberKey}`, false);
     });
   },
 

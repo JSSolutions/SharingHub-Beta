@@ -17,7 +17,8 @@ export default {
     });
   },
 
-  syncService({ Meteor, Bert }, serviceName) {
+  syncService({ Meteor, Bert, LocalState }, serviceName) {
+    LocalState.set(`loading_${serviceName}`, true);
     Meteor.call('services.syncService', serviceName, (err) => {
       if (err) {
         Bert.alert({
@@ -32,6 +33,7 @@ export default {
           type: 'success',
         });
       }
+      LocalState.set(`loading_${serviceName}`, false);
     });
   },
 };
