@@ -1,0 +1,61 @@
+.material-well
+  margin-top 15px
+  .well-title
+    text-align center
+  @media (min-width 768px)
+    margin-top 40px
+  @media (min-width 992pxpx)
+    margin-top 70px
+
+.link-non-stiled
+  non-stiled_link()
+  &:hover
+    non-stiled_link()
+
+.control-button
+  button + button
+    margin-left 15px
+
+.icon-button
+  i
+    margin-right 5px
+
+.image
+  width 100px
+  height 100px
+  img
+    width 100%
+    height 100%
+
+.image-lg
+  width 150px
+  height 150px
+
+.image-md
+  width 70px
+  height 70px
+
+.image-sm
+  width 50px
+  height 50px
+
+.image-circle
+  border-radius 50%
+  img
+    border-radius 50%
+
+.modal-center-mobile
+  @media (max-width 768px)
+    display table !important
+    height 100%
+    width 100%
+    pointer-events none
+    .modal-dialog
+      display table-cell
+      vertical-align middle
+      pointer-events none
+      .modal-content
+        margin 15px 5px
+        width inherit
+        height inherit
+        pointer-events all

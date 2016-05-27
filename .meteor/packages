@@ -23,3 +23,10 @@ stylus
 check
 http
 aldeed:collection2
+jsep:accounts-trello
+accounts-google
+accounts-github
+service-configuration
+themeteorchef:bert
+reywood:publish-composite
+dburles:collection-helpers

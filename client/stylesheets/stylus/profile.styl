@@ -1,0 +1,70 @@
+.service-header
+  position relative
+  .sync-button
+    position absolute
+    top 0
+    right 0
+    i
+      margin-right 5px
+
+.service-tabs
+  display flex
+  text-align center
+  li
+    width 50%
+    @media (min-width 992px)
+      width 200px
+      overflow hidden
+      font-size 14px
+
+.list
+  .list-item.selected
+    background-color $green_background
+    color white
+  .list-item
+    height 70px
+    display flex
+    justify-content space-between
+    position relative
+    margin 10px 0
+    background-color $light_silver_background
+    .list-item-content.detail-page
+      width 80%
+    .list-item-content
+      width 100%
+      padding-left  10px
+      display flex
+      align-items center
+      justify-content flex-start
+      .image + .list-item-title
+        margin-left 8px
+      .list-item-title
+        font-size 16px
+      i
+        font-size 16px
+        margin-right 10px
+    div
+      display inline-block
+    .list-icon
+      display flex
+      align-items center
+      justify-content center
+      width 20%
+      font-size 16px
+    &:hover
+      cursor pointer
+      opacity 0.8
+      box-shadow 0px 4px 6px rgba(0, 0, 0, 0.17)
+    @media (min-width 768px)
+      margin 15px 0
+
+.dropdown-menu.bootstrap-typeahead-menu.dropdown-menu-justify
+  width 100%
+  li
+    a
+      color $font_color
+      font-size 15px
+      line-height 34px
+  & > .active
+    & > a
+      background-color rgba(0, 126, 255, .08);

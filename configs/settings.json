@@ -1,0 +1,16 @@
+{
+  "services": {
+    "trello": {
+      "consumerKey": "1d2688be65357d07e4614aedf8ae5c35",
+      "secret": "a25c4cda4e6468aac077cf3fc796a81a7969928524f9aa04cbd65a5abab1d8cf"
+    },
+    "google": {
+      "clientId": "6473637348-2nl85lq2bpu1u1immi3bhb7rv1dvdajd.apps.googleusercontent.com",
+      "secret": "WtZG3lzM9Trd-SQn2tccsh3_"
+    },
+    "github": {
+      "clientId": "a67cf4065a86e3aa0524",
+      "secret": "aca16f816dd406997596cf94e9c09e880aab3938"
+    }
+  }
+}
