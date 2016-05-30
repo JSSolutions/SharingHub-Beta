@@ -20,11 +20,14 @@ export default () => {
       },
       children: [{
         find(subject) {
-          return Members.find({
-            owner: this.userId,
-            service: serviceName,
-            memberKey: { $in: subject.memberKeys },
-          });
+          if (subject) {
+            const memberKeys = subject.memberKeys.map(mk => mk.key);
+            return Members.find({
+              owner: this.userId,
+              service: serviceName,
+              memberKey: { $in: memberKeys },
+            });
+          } return [];
         },
       }],
     };
@@ -37,11 +40,14 @@ export default () => {
       },
       children: [{
         find(member) {
-          return Subjects.find({
-            owner: this.userId,
-            service: serviceName,
-            subjectKey: { $in: member.subjectKeys },
-          });
+          if (member) {
+            const subjectKeys = member.subjectKeys.map(mk => mk.key);
+            return Subjects.find({
+              owner: this.userId,
+              service: serviceName,
+              subjectKey: { $in: subjectKeys },
+            });
+          } return [];
         },
       }],
     };

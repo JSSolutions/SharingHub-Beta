@@ -39,13 +39,35 @@ class TrelloApi {
     }
   }
 
-  getBoards(params = {}) {
+  getBoard(boardId, params = {}) {
+    const url = `/boards/${boardId}/`;
+    const res = this.makeRequest('GET', url, params);
+    if (res instanceof Error) {
+      this.handleError(res);
+    }
+    return res.data;
+  }
+
+  getUserBoards(params = {}) {
     const url = '/member/me/boards';
     const res = this.makeRequest('GET', url, params);
     if (res instanceof Error) {
       this.handleError(res);
     }
     return res.data;
+  }
+
+  getAdminBoardsList(params = {}) {
+    const boards = this.getUserBoards(params);
+    const adminBoards = [];
+
+    boards.forEach((board) => {
+      const member = board.memberships && board.memberships[0];
+      if (!member) return;
+      if (member.memberType === 'admin') adminBoards.push(board);
+    });
+
+    return adminBoards;
   }
 
   getMember(memberId, params = {}) {
@@ -55,43 +77,6 @@ class TrelloApi {
       this.handleError(res);
     }
     return res.data;
-  }
-
-  getAdminBoards(userId, params = {}) {
-    const boards = this.getBoards(params);
-    const adminBoards = [];
-
-    boards.forEach((board) => {
-      if (!board.memberships) return;
-      board.memberships.forEach((member) => {
-        if (member.idMember === userId && member.memberType === 'admin') {
-          adminBoards.push(board);
-        }
-      });
-    });
-
-    return adminBoards;
-  }
-
-  getAdminBoardsMembers(userId, boards) {
-    const members = [];
-    const membersId = [];
-
-    boards.forEach(board => {
-      if (!board.memberships) return;
-      board.memberships.forEach((member) => {
-        if (member.idMember !== userId) {
-          membersId.push(member.idMember);
-        }
-      });
-    });
-
-    _.uniq(membersId).forEach(memberId => {
-      const memberProfile = this.getMember(memberId);
-      members.push(memberProfile);
-    });
-
-    return members;
   }
 
   addBoardMember(boardId, memberId, params = {}) {

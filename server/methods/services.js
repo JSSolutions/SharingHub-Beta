@@ -13,7 +13,7 @@ export default () => {
           result = Meteor.call('trello.getServiceData');
           break;
         default:
-          break;
+          throw new Meteor.Error('invalidService', 'Invalid Service name');
       }
 
       if (result) {
@@ -47,7 +47,7 @@ export default () => {
         $unset: { [unsetService]: '' },
       });
     },
-    'services.shareSubjectToMember'(serviceName, subjectKey, memberKey) {
+    'services.shareSubjectToMember'(serviceName, subjectKey, memberKey, permissions) {
       check(serviceName, String);
       check(subjectKey, String);
       check(memberKey, String);
@@ -55,18 +55,19 @@ export default () => {
 
       switch (serviceName) {
         case 'trello':
-          result = Meteor.call('trello.addBoardMember', subjectKey, memberKey);
+          permissions = permissions || ['normal'];
+          result = Meteor.call('trello.addBoardMember', subjectKey, memberKey, permissions);
           break;
         default:
-          break;
+          throw new Meteor.Error('invalidService', 'Invalid Service name');
       }
 
       if (result) {
         Subjects.update({ subjectKey, owner: this.userId, service: serviceName }, {
-          $addToSet: { memberKeys: memberKey },
+          $push: { memberKeys: { key: memberKey, permissions } },
         });
         Members.update({ memberKey, owner: this.userId, service: serviceName }, {
-          $addToSet: { subjectKeys: subjectKey },
+          $push: { subjectKeys: { key: subjectKey, permissions } },
         });
       }
     },
@@ -81,15 +82,15 @@ export default () => {
           result = Meteor.call('trello.removeBoardMember', subjectKey, memberKey);
           break;
         default:
-          break;
+          throw new Meteor.Error('invalidService', 'Invalid Service name');
       }
 
       if (result) {
         Subjects.update({ subjectKey, owner: this.userId, service: serviceName }, {
-          $pull: { memberKeys: memberKey },
+          $pull: { memberKeys: { key: memberKey } },
         });
         Members.update({ memberKey, owner: this.userId, service: serviceName }, {
-          $pull: { subjectKeys: subjectKey },
+          $pull: { subjectKeys: { key: subjectKey } },
         });
       }
     },
@@ -97,20 +98,21 @@ export default () => {
       check(serviceName, String);
       check(memberKey, String);
       let result;
-      let member;
 
       switch (serviceName) {
         case 'trello':
           result = Meteor.call('trello.getMembersProfile', memberKey);
-          member = Members.findOne({ memberKey: result.memberKey });
-          if (member) {
-            throw new Meteor.Error('duplicateMemberKey', 'Member with this key already exist');
-          } else {
-            Members.insert(result);
-          }
-          return result;
+          break;
         default:
           throw new Meteor.Error('invalidService', 'Invalid Service name');
+      }
+
+      const member = Members.findOne({ memberKey: result.memberKey });
+      if (member) {
+        throw new Meteor.Error('duplicateMemberKey', 'Member with this key already exist');
+      } else {
+        console.log('result: ', result);
+        Members.insert(result);
       }
     },
     'services.findMember'(serviceName, subjectKey, query) {
