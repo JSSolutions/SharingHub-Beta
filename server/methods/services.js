@@ -13,7 +13,7 @@ export default () => {
           result = Meteor.call('trello.getServiceData');
           break;
         default:
-          break;
+          throw new Meteor.Error('invalidService', 'Invalid Service name');
       }
 
       if (result) {
@@ -47,26 +47,31 @@ export default () => {
         $unset: { [unsetService]: '' },
       });
     },
-    'services.shareSubjectToMember'(serviceName, subjectKey, memberKey) {
+    'services.shareSubjectToMember'(serviceName, subjectKey, memberKey, permissions) {
       check(serviceName, String);
       check(subjectKey, String);
       check(memberKey, String);
-      let result;
+      check(permissions, Array);
 
+      if (!permissions || permissions.length < 1) {
+        throw new Meteor.Error('InvalidPermissions', 'Member permissions is required');
+      }
+
+      let result;
       switch (serviceName) {
         case 'trello':
-          result = Meteor.call('trello.addBoardMember', subjectKey, memberKey);
+          result = Meteor.call('trello.addBoardMember', subjectKey, memberKey, permissions);
           break;
         default:
-          break;
+          throw new Meteor.Error('invalidService', 'Invalid Service name');
       }
 
       if (result) {
         Subjects.update({ subjectKey, owner: this.userId, service: serviceName }, {
-          $addToSet: { memberKeys: memberKey },
+          $push: { memberKeys: { key: memberKey, permissions } },
         });
         Members.update({ memberKey, owner: this.userId, service: serviceName }, {
-          $addToSet: { subjectKeys: subjectKey },
+          $push: { subjectKeys: { key: subjectKey, permissions } },
         });
       }
     },
@@ -81,15 +86,15 @@ export default () => {
           result = Meteor.call('trello.removeBoardMember', subjectKey, memberKey);
           break;
         default:
-          break;
+          throw new Meteor.Error('invalidService', 'Invalid Service name');
       }
 
       if (result) {
         Subjects.update({ subjectKey, owner: this.userId, service: serviceName }, {
-          $pull: { memberKeys: memberKey },
+          $pull: { memberKeys: { key: memberKey } },
         });
         Members.update({ memberKey, owner: this.userId, service: serviceName }, {
-          $pull: { subjectKeys: subjectKey },
+          $pull: { subjectKeys: { key: subjectKey } },
         });
       }
     },
@@ -97,20 +102,20 @@ export default () => {
       check(serviceName, String);
       check(memberKey, String);
       let result;
-      let member;
 
       switch (serviceName) {
         case 'trello':
           result = Meteor.call('trello.getMembersProfile', memberKey);
-          member = Members.findOne({ memberKey: result.memberKey });
-          if (member) {
-            throw new Meteor.Error('duplicateMemberKey', 'Member with this key already exist');
-          } else {
-            Members.insert(result);
-          }
-          return result;
+          break;
         default:
           throw new Meteor.Error('invalidService', 'Invalid Service name');
+      }
+
+      const member = Members.findOne({ memberKey: result.memberKey });
+      if (member) {
+        throw new Meteor.Error('duplicateMemberKey', 'Member with this key already exist');
+      } else {
+        Members.insert(result);
       }
     },
     'services.findMember'(serviceName, subjectKey, query) {
@@ -119,13 +124,14 @@ export default () => {
       check(query, String);
 
       const subject = Subjects.findOne({ subjectKey, service: serviceName });
+      const memberKeys = subject && subject.memberKeys && subject.memberKeys.map(mk => mk.key);
 
       switch (serviceName) {
         case 'trello':
           if (!query || query.length < 1) return [];
           const re = new RegExp(query, 'i');
           return Members.find(
-            { name: re, memberKey: { $nin: subject.memberKeys } },
+            { name: re, memberKey: { $nin: memberKeys } },
             { limit: 50, fields: { name: 1, memberKey: 1 } }).fetch();
         default:
           return [];
@@ -137,13 +143,14 @@ export default () => {
       check(query, String);
 
       const member = Members.findOne({ memberKey, service: serviceName });
+      const subjectKeys = member && member.subjectKeys && member.subjectKeys.map(sk => sk.key);
 
       switch (serviceName) {
         case 'trello':
           if (!query || query.length < 1) return [];
           const re = new RegExp(query, 'i');
           return Subjects.find(
-            { name: re, subjectKey: { $nin: member.subjectKeys } },
+            { name: re, subjectKey: { $nin: subjectKeys } },
             { limit: 50, fields: { name: 1, subjectKey: 1 } }).fetch();
         default:
           return [];

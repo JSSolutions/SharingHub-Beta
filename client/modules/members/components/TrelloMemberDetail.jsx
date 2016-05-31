@@ -17,7 +17,7 @@ class TrelloMemberDetail extends React.Component {
           <p>Name: {member.name}</p>
           <p>Service: {member.service}</p>
           <p>Username: {additionalData.username}</p>
-          <p>Board Id: {member.memberKey}</p>
+          <p>Member Id: {member.memberKey}</p>
           <p>
             Url: <a href={additionalData.url} target="_blank">{additionalData.url}</a>
           </p>

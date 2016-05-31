@@ -1,8 +1,8 @@
 export default {
-  shareSubjectToMember({ Meteor, Bert, LocalState }, serviceName, subjectKey, memberKey) {
+  shareSubjectToMember({ Meteor, Bert, LocalState }, serviceName, subjectKey, memberKey, permissions) {
     LocalState.set(`loading_${subjectKey}`, true);
     LocalState.set(`loading_${memberKey}`, true);
-    Meteor.call('services.shareSubjectToMember', serviceName, subjectKey, memberKey, (err) => {
+    Meteor.call('services.shareSubjectToMember', serviceName, subjectKey, memberKey, permissions, (err) => {
       if (err) {
         Bert.alert({ title: 'Error', message: err.message, type: 'danger' });
       } else {

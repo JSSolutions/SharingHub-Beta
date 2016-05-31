@@ -14,8 +14,15 @@ export default new SimpleSchema({
     type: String,
   },
   memberKeys: {
-    type: [String],
+    type: [Object],
     optional: true,
+  },
+  'memberKeys.$.key': {
+    type: String,
+  },
+  'memberKeys.$.permissions': {
+    type: [String],
+    defaultValue: [],
   },
   image: {
     type: String,
