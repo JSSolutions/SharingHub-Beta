@@ -51,11 +51,15 @@ export default () => {
       check(serviceName, String);
       check(subjectKey, String);
       check(memberKey, String);
-      let result;
+      check(permissions, Array);
 
+      if (!permissions || permissions.length < 1) {
+        throw new Meteor.Error('InvalidPermissions', 'Member permissions is required');
+      }
+
+      let result;
       switch (serviceName) {
         case 'trello':
-          permissions = permissions || ['normal'];
           result = Meteor.call('trello.addBoardMember', subjectKey, memberKey, permissions);
           break;
         default:
@@ -111,7 +115,6 @@ export default () => {
       if (member) {
         throw new Meteor.Error('duplicateMemberKey', 'Member with this key already exist');
       } else {
-        console.log('result: ', result);
         Members.insert(result);
       }
     },
@@ -121,13 +124,14 @@ export default () => {
       check(query, String);
 
       const subject = Subjects.findOne({ subjectKey, service: serviceName });
+      const memberKeys = subject && subject.memberKeys && subject.memberKeys.map(mk => mk.key);
 
       switch (serviceName) {
         case 'trello':
           if (!query || query.length < 1) return [];
           const re = new RegExp(query, 'i');
           return Members.find(
-            { name: re, memberKey: { $nin: subject.memberKeys } },
+            { name: re, memberKey: { $nin: memberKeys } },
             { limit: 50, fields: { name: 1, memberKey: 1 } }).fetch();
         default:
           return [];
@@ -139,13 +143,14 @@ export default () => {
       check(query, String);
 
       const member = Members.findOne({ memberKey, service: serviceName });
+      const subjectKeys = member && member.subjectKeys && member.subjectKeys.map(sk => sk.key);
 
       switch (serviceName) {
         case 'trello':
           if (!query || query.length < 1) return [];
           const re = new RegExp(query, 'i');
           return Subjects.find(
-            { name: re, subjectKey: { $nin: member.subjectKeys } },
+            { name: re, subjectKey: { $nin: subjectKeys } },
             { limit: 50, fields: { name: 1, subjectKey: 1 } }).fetch();
         default:
           return [];

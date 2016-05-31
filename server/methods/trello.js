@@ -100,8 +100,7 @@ export default () => {
       const params = { fields: memberFields };
       const trello = new TrelloApi(key, accessToken);
       const member = trello.getMember(memberKey, params);
-      const parserMember = parseTrelloMembers(member, null, this.userId);
-      return parserMember;
+      return parseTrelloMembers(member, null, this.userId);
     },
     'trello.addBoardMember'(boardId, memberId, permissions) {
       check(boardId, String);

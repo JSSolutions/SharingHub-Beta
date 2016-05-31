@@ -1,11 +1,15 @@
 import React from 'react';
-import { Button, Modal } from 'react-bootstrap';
+import { Button, Modal, Checkbox, Radio, FormGroup } from 'react-bootstrap';
 import Typeahead from 'react-bootstrap-typeahead';
+import Constants from '../../core/libs/constants';
 
 class ShareModal extends React.Component {
   constructor(props) {
     super(props);
-    let type, subjectKey, memberKey, getOptions;
+    let type;
+    let subjectKey;
+    let memberKey;
+    let getOptions;
 
     if (this.props.subject) {
       type = 'subject';
@@ -25,6 +29,7 @@ class ShareModal extends React.Component {
       showModal: false,
       options: [],
       modalValue: [],
+      permissions: [],
     };
 
     this.close = this.close.bind(this);
@@ -33,15 +38,6 @@ class ShareModal extends React.Component {
     this.onInputChange = this.onInputChange.bind(this);
     this.submitFindModal = this.submitFindModal.bind(this);
     this.isValid = this.isValid.bind(this);
-  }
-
-  handleSelect(modalValue) {
-    const value = modalValue[0];
-    if (this.state.type === 'subject') {
-      this.setState({ modalValue, memberKey: value && value.memberKey });
-    } else {
-      this.setState({ modalValue, subjectKey: value && value.subjectKey });
-    }
   }
 
   onInputChange(input) {
@@ -58,6 +54,15 @@ class ShareModal extends React.Component {
     });
   }
 
+  handleSelect(modalValue) {
+    const value = modalValue[0];
+    if (this.state.type === 'subject') {
+      this.setState({ modalValue, memberKey: value && value.memberKey });
+    } else {
+      this.setState({ modalValue, subjectKey: value && value.subjectKey });
+    }
+  }
+
   openFindModal() {
     this.setState({ showModal: true });
   }
@@ -66,20 +71,81 @@ class ShareModal extends React.Component {
     this.setState({
       showModal: false,
       modalValue: [],
+      permissions: [],
+      options: [],
     });
   }
 
   isValid() {
-    return this.state.memberKey && this.state.subjectKey;
+    return this.state.memberKey && this.state.subjectKey && this.state.permissions.length >= 1;
   }
 
   submitFindModal() {
     const { shareSubjectToMember, service } = this.props;
-    shareSubjectToMember(service, this.state.subjectKey, this.state.memberKey);
+    const { subjectKey, memberKey, permissions } = this.state;
+    shareSubjectToMember(service, subjectKey, memberKey, permissions);
     this.close();
   }
 
+  handlePermissionCheck(p) {
+    const permissions = this.state.permissions;
+    const permissionIndex = permissions.indexOf(p);
+    if (permissionIndex === -1) {
+      permissions.push(p);
+    } else {
+      permissions.splice(permissionIndex, 1);
+    }
+    this.setState({ permissions });
+  }
+
+  handlePermissionRadio(p) {
+    const permissions = [p];
+    this.setState({ permissions });
+  }
+
+  renderServicesPermissions(serviceConstants) {
+    const permissions = serviceConstants.permissions;
+    if (permissions) {
+      return (
+        <FormGroup>
+          <span>Permissions</span>
+          {permissions.multi ?
+            <div>
+              {permissions.list.map((p, i) => (
+                <Checkbox
+                  key={i}
+                  name={p.value}
+                  checked={this.state.permissions.indexOf(p.value) !== -1}
+                  onChange={() => this.handlePermissionCheck(p.value)}
+                >
+                  {p.label}
+                </Checkbox>
+              ))}
+            </div>
+            :
+            <div>
+              {permissions.list.map((p, i) => (
+                <Radio
+                  key={i}
+                  name={p.value}
+                  checked={this.state.permissions.indexOf(p.value) !== -1}
+                  onChange={() => this.handlePermissionRadio(p.value)}
+                >
+                  {p.label}
+                </Radio>
+              ))}
+            </div>
+          }
+        </FormGroup>
+      );
+    }
+    return null;
+  }
+
   render() {
+    const { service } = this.props;
+    const { type } = this.state;
+    const serviceConstants = Constants.services[service] || {};
     return (
       <div className="control-button">
         <Button
@@ -87,16 +153,18 @@ class ShareModal extends React.Component {
           onClick={this.openFindModal}
         >
           <i className="fa fa-search-plus" aria-hidden="true"></i>
-          Find Member
+          {type === 'member' ? 'Find Subject' : 'Find Member'}
         </Button>
         <Modal show={this.state.showModal} onHide={this.close} className="modal-center-mobile">
           <Modal.Header closeButton>
-            <Modal.Title>Share with member</Modal.Title>
+            <Modal.Title>{`Share with ${serviceConstants.title} members`}</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <form>
+            <form ref="shareFrom">
               <div className="form-group">
-                <label htmlFor="typeahead">Find Subject</label>
+                <label htmlFor="typeahead">
+                  Find by name
+                </label>
                 <Typeahead
                   name="typeahead"
                   labelKey="name"
@@ -104,9 +172,10 @@ class ShareModal extends React.Component {
                   onInputChange={this.onInputChange}
                   options={this.state.options}
                   selected={this.state.modalValue}
-                  placeholder="Subject key"
+                  placeholder="Find by name"
                 />
               </div>
+              {this.renderServicesPermissions(serviceConstants)}
             </form>
           </Modal.Body>
           <Modal.Footer>
