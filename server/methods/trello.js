@@ -2,7 +2,6 @@ import { Meteor } from 'meteor/meteor';
 import { check } from 'meteor/check';
 import { Subjects, Members } from '/imports/collections';
 import TrelloApi from '../libs/trello';
-import Trello from 'node-trello';
 import { _ } from 'meteor/underscore';
 
 const key = Meteor.settings.services.trello.consumerKey;
@@ -55,7 +54,7 @@ const parseTrelloSubject = (board, userId) => {
 };
 
 const parseTrelloMembers = (member, subjectKey, userId) => {
-  const { fullName, id, idBoards, ...rest } = member;
+  const { fullName, id, ...rest } = member;
   return {
     name: fullName,
     owner: userId,
