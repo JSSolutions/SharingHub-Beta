@@ -34,13 +34,14 @@ class MembersList extends React.Component {
   }
 
   render() {
-    const { members, service, subject } = this.props;
+    const { members, service, subject, loading } = this.props;
     return (
       <div style={{ marginTop: '15px' }}>
         <div>
           <Button
             className="icon-button"
             onClick={this.openCreateModal}
+            disabled={loading}
           >
             <i className="fa fa-plus" aria-hidden="true"></i>
             Create Member
@@ -50,6 +51,7 @@ class MembersList extends React.Component {
           members={members}
           service={service}
           subject={subject}
+          loading={loading}
         />
 
         <Modal show={this.state.showCreateModal} onHide={this.close} className="modal-center-mobile">
@@ -86,6 +88,7 @@ MembersList.propTypes = {
   subjectDetail: React.PropTypes.bool,
   subject: React.PropTypes.object,
   createServiceMember: React.PropTypes.func,
+  loading: React.PropTypes.bool,
 };
 
 export default MembersList;

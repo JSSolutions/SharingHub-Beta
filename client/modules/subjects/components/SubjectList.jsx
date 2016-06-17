@@ -1,5 +1,6 @@
 import React from 'react';
 import { Col, Row } from 'react-bootstrap';
+import { MaterialSpinner } from '../../core/libs/spinners.jsx';
 
 class SubjectsList extends React.Component {
   handleUnshare(subjectKey) {
@@ -8,7 +9,11 @@ class SubjectsList extends React.Component {
   }
 
   render() {
-    const { subjects, service, member } = this.props;
+    const { subjects, service, member, loading } = this.props;
+    if (loading) {
+      return <MaterialSpinner className="spinner-center" noFadeIn />;
+    }
+
     return (
       <Row className="list">
         {subjects && subjects.map((subject) => (
@@ -42,6 +47,7 @@ SubjectsList.propTypes = {
   service: React.PropTypes.string.isRequired,
   subjects: React.PropTypes.array,
   unshareSubjectFromMember: React.PropTypes.func,
+  loading: React.PropTypes.bool,
 };
 
 export default SubjectsList;

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Col, Row } from 'react-bootstrap';
+import { MaterialSpinner } from '../../core/libs/spinners.jsx';
 
 class MembersList extends React.Component {
   handleUnshare(memberKey) {
@@ -20,7 +21,11 @@ class MembersList extends React.Component {
   }
 
   render() {
-    const { members, service, subject } = this.props;
+    const { members, service, subject, loading } = this.props;
+    if (loading) {
+      return <MaterialSpinner className="spinner-center" noFadeIn />;
+    }
+
     return (
       <Row className="list">
         {members && members.map((member) => (
@@ -59,6 +64,7 @@ MembersList.propTypes = {
   subject: React.PropTypes.object,
   unshareSubjectFromMember: React.PropTypes.func,
   context: React.PropTypes.func,
+  loading: React.PropTypes.bool,
 };
 
 export default MembersList;

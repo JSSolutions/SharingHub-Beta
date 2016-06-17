@@ -3,6 +3,19 @@ export default {
     trello: {
       title: 'Trello',
       icon: 'fa fa-trello',
+      permissions: {
+        multi: false,
+        list: [
+          {
+            label: 'Normal',
+            value: 'normal',
+          },
+          {
+            label: 'Admin',
+            value: 'admin',
+          },
+        ],
+      },
     },
     google: {
       title: 'Google Drive',
