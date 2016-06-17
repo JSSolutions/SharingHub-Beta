@@ -33,6 +33,7 @@
         <item url="file://$USER_HOME$/.meteor/packages/oauth/1.1.10/web.browser/oauth_client.js" />
         <item url="file://$USER_HOME$/.meteor/packages/oauth/1.1.10/web.browser/oauth_common.js" />
         <item url="file://$USER_HOME$/.meteor/packages/oauth/1.1.10/web.browser/oauth_browser.js" />
+        <item url="file://$USER_HOME$/.meteor/packages/dburles_collection-helpers/1.0.4/web.browser/collection-helpers.js" />
         <item url="file://$USER_HOME$/.meteor/packages/accounts-base/1.2.7/web.browser/accounts_rate_limit.js" />
         <item url="file://$USER_HOME$/.meteor/packages/mongo-id/1.0.4/web.browser/id.js" />
         <item url="file://$USER_HOME$/.meteor/packages/accounts-base/1.2.7/web.browser/accounts_client.js" />
@@ -239,6 +240,7 @@
       <root url="file://$USER_HOME$/.meteor/packages/oauth/1.1.10/web.browser/oauth_client.js" />
       <root url="file://$USER_HOME$/.meteor/packages/oauth/1.1.10/web.browser/oauth_common.js" />
       <root url="file://$USER_HOME$/.meteor/packages/oauth/1.1.10/web.browser/oauth_browser.js" />
+      <root url="file://$USER_HOME$/.meteor/packages/dburles_collection-helpers/1.0.4/web.browser/collection-helpers.js" />
       <root url="file://$USER_HOME$/.meteor/packages/accounts-base/1.2.7/web.browser/accounts_rate_limit.js" />
       <root url="file://$USER_HOME$/.meteor/packages/mongo-id/1.0.4/web.browser/id.js" />
       <root url="file://$USER_HOME$/.meteor/packages/accounts-base/1.2.7/web.browser/accounts_client.js" />

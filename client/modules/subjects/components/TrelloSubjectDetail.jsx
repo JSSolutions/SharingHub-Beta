@@ -11,7 +11,9 @@ class TrelloSubjectDetail extends React.Component {
           <p>Name: {subject.name}</p>
           <p>Service: {subject.service}</p>
           <p>Board Id: {subject.subjectKey}</p>
-          <p>Url: {additionalData.url}</p>
+          <p>
+            Url: <a href={additionalData.url} target="_blank">{additionalData.url}</a>
+          </p>
           <p>Description: {additionalData.desc}</p>
         </div>
       </div>

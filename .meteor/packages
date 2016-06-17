@@ -29,3 +29,4 @@ accounts-github
 service-configuration
 themeteorchef:bert
 reywood:publish-composite
+dburles:collection-helpers

@@ -20,7 +20,34 @@ export default () => {
       },
       children: [{
         find(subject) {
-          return Members.find({ owner: this.userId, service: serviceName, memberKey: { $in: subject.memberKeys } });
+          if (subject) {
+            const memberKeys = subject.memberKeys.map(mk => mk.key);
+            return Members.find({
+              owner: this.userId,
+              service: serviceName,
+              memberKey: { $in: memberKeys },
+            });
+          } return [];
+        },
+      }],
+    };
+  });
+
+  Meteor.publishComposite('services.membersDetail', function (serviceName, memberId) {
+    return {
+      find() {
+        return Members.find(memberId);
+      },
+      children: [{
+        find(member) {
+          if (member) {
+            const subjectKeys = member.subjectKeys.map(mk => mk.key);
+            return Subjects.find({
+              owner: this.userId,
+              service: serviceName,
+              subjectKey: { $in: subjectKeys },
+            });
+          } return [];
         },
       }],
     };

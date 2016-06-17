@@ -2,7 +2,10 @@ import { useDeps, composeWithTracker, composeAll } from 'mantra-core';
 import Profile from '../components/Profile.jsx';
 
 export const composer = ({ context }, onData) => {
-  onData(null, {});
+  const { FlowRouter, LocalState } = context();
+  const menu = FlowRouter.getParam('menu') || 'settings';
+  const loading = LocalState.get(`loading_${menu}`);
+  onData(null, { loading, menu });
 };
 
 export const depsMapper = (context, action) => ({
